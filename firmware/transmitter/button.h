@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-// #define BUTTON_DEBOUNCE_TIME 20 // 20 ms
+/* Finite-state machine structures to debounce buttons */
 
 typedef enum {
     BUTTON_PRESSED,
