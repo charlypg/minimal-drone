@@ -4,6 +4,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdio.h>
+#include "button.h"
 #include "button_fsm.h"
 #include "led.h"
 #include "uart.h"
@@ -96,6 +97,9 @@ uint16_t value_1;
 
 int main(void)
 {
+    // Input button_middle
+    BUTTON_INIT(CALIB_SW_PIN);
+    BUTTON_ACTIVATE_PULLUP(CALIB_SW_PIN);
     button_init(&button_middle, 20);
 
     // LEDs
@@ -103,10 +107,6 @@ int main(void)
     LED_BLUE_OFF();
     LED_GREEN_INIT();
     LED_GREEN_OFF();
-
-    // Input button_middle
-    DDRD &= ~(1 << DDD5); // PD5 input
-    PORTD |= (1 << PD5); // activate pull-up resistor
 
     // Init timer
     TCCR0A = (1 << WGM01); // CTC
@@ -158,7 +158,7 @@ int main(void)
     while (1) {
         // Button state
         if (button_update_pending) {
-            button_middle_raw = (PIND & (1 << PIND5));
+            button_middle_raw = BUTTON_STATE(CALIB_SW_LOGIC);
             button_middle_event = button_update(&button_middle, button_middle_raw);
             if (button_middle_event == BUTTON_EVENT_PRESSED) {
                 LED_BLUE_TOGGLE();
