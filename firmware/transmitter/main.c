@@ -4,7 +4,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdio.h>
-#include "button.h"
+#include "button_fsm.h"
 #include "led.h"
 #include "uart.h"
 

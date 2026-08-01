@@ -1,4 +1,4 @@
-#include "button.h"
+#include "button_fsm.h"
 
 void button_init(Button * button, uint8_t debounce_ticks) {
     button->state = BUTTON_RELEASED;

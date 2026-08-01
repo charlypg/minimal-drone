@@ -1,5 +1,5 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#ifndef BUTTON_FSM_H
+#define BUTTON_FSM_H
 
 #include <stdint.h>
 
