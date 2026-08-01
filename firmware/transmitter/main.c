@@ -5,6 +5,7 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
 #include "button.h"
+#include "led.h"
 #include "uart.h"
 
 
@@ -97,9 +98,11 @@ int main(void)
 {
     button_init(&button_middle, 20);
 
-    // Blue LED
-    DDRB |= (1 << DDB0); // PB0 output
-    PORTB |= (1 << PB0); // PB0 low
+    // LEDs
+    LED_BLUE_INIT();
+    LED_BLUE_OFF();
+    LED_GREEN_INIT();
+    LED_GREEN_OFF();
 
     // Input button_middle
     DDRD &= ~(1 << DDD5); // PD5 input
@@ -158,7 +161,7 @@ int main(void)
             button_middle_raw = (PIND & (1 << PIND5));
             button_middle_event = button_update(&button_middle, button_middle_raw);
             if (button_middle_event == BUTTON_EVENT_PRESSED) {
-                PORTB ^= (1 << PB0);
+                LED_BLUE_TOGGLE();
                 uart_puts("PRESSED!\r\n");
             }
             button_update_pending = 0;
