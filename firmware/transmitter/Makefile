@@ -1,6 +1,6 @@
 # Config
 
-PROJECT := test_atmega328p
+PROJECT := transmitter_atmega328p
 MCU := atmega328p
 F_CPU := 16000000UL
 
