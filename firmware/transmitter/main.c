@@ -5,27 +5,7 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
 #include "button.h"
-
-
-void uart_putchar(char c)
-{
-    /*
-     * Attendre que le registre d'émission soit libre.
-     */
-    while (!(UCSR0A & (1 << UDRE0)))
-    {
-    }
-
-    UDR0 = c;
-}
-
-void uart_puts(const char *s)
-{
-    while (*s)
-    {
-        uart_putchar(*s++);
-    }
-}
+#include "uart.h"
 
 
 volatile uint8_t button_update_pending = 0;
@@ -131,14 +111,7 @@ int main(void)
     OCR0A = 249; // devided again by 249+1
     TIMSK0 = (1 << OCIE0A); // Interrupt
 
-    // Init UART
-    UBRR0 = 8; // 115200 baud
-    UCSR0B =
-        (1 << RXEN0) |
-        (1 << TXEN0); // enable TX & RX
-    UCSR0C =
-        (1 << UCSZ01) |
-        (1 << UCSZ00); // 8 bits, 1 stop, no parity
+    uart_init(); // Initialize UART
     
 
     // Init ADC
